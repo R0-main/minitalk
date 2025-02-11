@@ -1,8 +1,9 @@
 # Main
-NAME				=	minitalk
+# NAME				=	minitalk
 CC					=	gcc
 
-CFLAGS				=	-Wall -Werror -Wextra -Idependencies/ft_libc/includes -Iincludes -fPIE
+# -Wall -Werror -Wextra
+CFLAGS				=	 -Idependencies/ft_libc/includes -Iincludes -fPIE
 RM					=	rm -rf
 MAKE				=	make --no-print-directory -C
 
@@ -25,11 +26,16 @@ INFO				=	ⓘ
 # Sources and Objects
 FT_LIBC 			= ./dependencies/ft_libc/ft_libc.a
 
-SRCS				=	src/main.c\
+SRCS				=	src/server.c\
+						src/client.c
+
+SERV_SRCS				=	src/server.c
+CLIE_SRCS				=	src/client.c
 
 SRC_COUNT			=	$(words $(SRCS))
 
-OBJS				=	$(patsubst %.c, $(OBJ_DIR)/%.o, $(SRCS))
+SERV_OBJS				=	$(patsubst %.c, $(OBJ_DIR)/%.o, $(SERV_SRCS))
+CLIE_OBJS				=	$(patsubst %.c, $(OBJ_DIR)/%.o, $(CLIE_SRCS))
 
 OBJ_DIR				=	objects
 
@@ -37,10 +43,13 @@ ifeq ($(GOOD_LOOKING_MESSAGES), 1)
 	CFLAGS += -DGOOD_LOOKING_MESSAGES=1
 endif
 
-all : $(NAME)
+all : client server
 
-$(NAME) : header $(FT_LIBC) $(OBJ_DIR)
-		@$(CC) $(CFLAGS) $(OBJS) $(FT_LIBC) -o $(NAME)
+client : header $(FT_LIBC) $(CLIE_OBJS)
+		@$(CC) $(CFLAGS) $(CLIE_OBJS) $(FT_LIBC) -o client
+
+server : header $(FT_LIBC) $(SERV_OBJS)
+		@$(CC) $(CFLAGS) $(SERV_OBJS) $(FT_LIBC) -o server
 
 $(OBJ_DIR)/%.o: %.c
 		@mkdir -p $(dir $@)
