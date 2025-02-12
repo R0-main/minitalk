@@ -46,10 +46,14 @@ endif
 all : client server
 
 client : header $(FT_LIBC) $(CLIENT_OBJS)
-		@$(CC) $(CFLAGS) $(CLIENT_OBJS) $(FT_LIBC) -o client
+		@$(CC) $(CFLAGS) $(CLIENT_OBJS) $(FT_LIBC) -o $(CLIENT_NAME)
+
 
 server : header $(FT_LIBC) $(SERVER_OBJS)
-		@$(CC) $(CFLAGS) $(SERVER_OBJS) $(FT_LIBC) -o server
+		@if [ ! -e "$(SERVER_NAME)" ]; then \
+			printf "]\n" ; \
+		fi
+		@$(CC) $(CFLAGS) $(SERVER_OBJS) $(FT_LIBC) -o $(SERVER_NAME)
 
 $(OBJ_DIR)/%.o: %.c
 		@mkdir -p $(dir $@)
@@ -59,10 +63,6 @@ $(OBJ_DIR)/%.o: %.c
 $(OBJ_DIR): $(OBJS)
 		@if [ ! -d "$(OBJ_DIR)" ]; \
 			then mkdir -p "$(OBJ_DIR)"; \
-		fi
-		@if [ ! -e "$(NAME)" ]; then \
-			printf "]" ; \
-			printf "\n" ; \
 		fi
 
 $(FT_LIBC) :
@@ -81,7 +81,7 @@ header:
 			        \/        \/                  \/          \/ \n\
 		";
 		@printf  "\n";
-		@if [ ! -e "$(NAME)" ]; \
+		@if [ ! -e "$(CLIENT_NAME)" -a ! -e "$(CLIENT_NAME)" ]; \
 			then printf "Compiling Project : ["; \
 		fi
 
