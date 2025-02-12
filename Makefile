@@ -1,5 +1,6 @@
 # Main
-# NAME				=	minitalk
+CLIENT_NAME				=	client
+SERVER_NAME				=	server
 CC					=	gcc
 
 # -Wall -Werror -Wextra
@@ -29,13 +30,13 @@ FT_LIBC 			= ./dependencies/ft_libc/ft_libc.a
 SRCS				=	src/server.c\
 						src/client.c
 
-SERV_SRCS				=	src/server.c
-CLIE_SRCS				=	src/client.c
+SERVER_SRCS			=	src/server.c
+CLIENT_SRCS			=	src/client.c
 
 SRC_COUNT			=	$(words $(SRCS))
 
-SERV_OBJS				=	$(patsubst %.c, $(OBJ_DIR)/%.o, $(SERV_SRCS))
-CLIE_OBJS				=	$(patsubst %.c, $(OBJ_DIR)/%.o, $(CLIE_SRCS))
+SERVER_OBJS			=	$(patsubst %.c, $(OBJ_DIR)/%.o, $(SERVER_SRCS))
+CLIENT_OBJS			=	$(patsubst %.c, $(OBJ_DIR)/%.o, $(CLIENT_SRCS))
 
 OBJ_DIR				=	objects
 
@@ -45,11 +46,11 @@ endif
 
 all : client server
 
-client : header $(FT_LIBC) $(CLIE_OBJS)
-		@$(CC) $(CFLAGS) $(CLIE_OBJS) $(FT_LIBC) -o client
+client : header $(FT_LIBC) $(CLIENT_OBJS)
+		@$(CC) $(CFLAGS) $(CLIENT_OBJS) $(FT_LIBC) -o client
 
-server : header $(FT_LIBC) $(SERV_OBJS)
-		@$(CC) $(CFLAGS) $(SERV_OBJS) $(FT_LIBC) -o server
+server : header $(FT_LIBC) $(SERVER_OBJS)
+		@$(CC) $(CFLAGS) $(SERVER_OBJS) $(FT_LIBC) -o server
 
 $(OBJ_DIR)/%.o: %.c
 		@mkdir -p $(dir $@)
@@ -90,7 +91,8 @@ clean :
 		@$(MAKE) $(shell dirname $(FT_LIBC)) fclean
 
 fclean : clean
-		@$(RM) $(NAME)
+		@$(RM) $(CLIENT_NAME)
+		@$(RM) $(SERVER_NAME)
 
 re : fclean all
 

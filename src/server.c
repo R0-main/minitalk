@@ -6,7 +6,7 @@
 /*   By: rguigneb <rguigneb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:57:55 by rguigneb          #+#    #+#             */
-/*   Updated: 2025/02/11 14:01:44 by rguigneb         ###   ########.fr       */
+/*   Updated: 2025/02/12 11:51:15 by rguigneb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,35 +16,68 @@
 #include <signal.h>
 #include <stdlib.h>
 
-char		byte;
+char	g_byte = -1;
 
 void	handle_0(int sig)
 {
-	byte = 0;
+	g_byte = 0;
 }
 
 void	handle_1(int sig)
 {
-	byte = 1;
+	g_byte = 1;
+}
+
+bool	received_char(char **str, char *c, int *o)
+{
+	char	*t;
+	char	*old_str;
+
+	t = malloc(2);
+	if (!t)
+		return (free(*str), true);
+	t[0] = *c;
+	t[1] = 0;
+	old_str = *str;
+	*str = ft_strjoin(*str, t);
+	if (!str)
+		return (free(old_str), free(t), true);
+	free(old_str);
+	free(t);
+	if (*c == 0)
+	{
+		ft_fprintf(1, "%s\n", *str);
+		*str = ft_strdup("");
+	}
+	*o = 7;
+	*c = 0;
+	return (false);
 }
 
 int	main(void)
 {
 	char	*str;
-	int		i;
+	char	c;
+	int		o;
 
 	signal(SIGUSR1, handle_0);
 	signal(SIGUSR2, handle_1);
 	ft_fprintf(STDOUT_FILENO, CYN "server " RED "PID" RESET " : %d\n",
 		getpid());
+	c = 0;
+	o = 7;
+	str = ft_strdup("");
 	while (1)
 	{
-		i = -1;
-		if (byte != -1)
+		if (g_byte != -1)
 		{
-			ft_fprintf(1, "%d\n", byte);
-			byte = -1;
+			c |= (g_byte << o);
+			o--;
+			g_byte = -1;
+			if (o == -1)
+				received_char(&str, &c, &o);
 		}
 	}
+	free(str);
 	return (1);
 }
