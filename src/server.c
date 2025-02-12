@@ -6,7 +6,7 @@
 /*   By: rguigneb <rguigneb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:57:55 by rguigneb          #+#    #+#             */
-/*   Updated: 2025/02/12 11:51:15 by rguigneb         ###   ########.fr       */
+/*   Updated: 2025/02/12 12:15:51 by rguigneb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,13 @@ char	g_byte = -1;
 
 void	handle_0(int sig)
 {
+	(void)sig;
 	g_byte = 0;
 }
 
 void	handle_1(int sig)
 {
+	(void)sig;
 	g_byte = 1;
 }
 

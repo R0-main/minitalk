@@ -6,7 +6,7 @@
 /*   By: rguigneb <rguigneb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:57:55 by rguigneb          #+#    #+#             */
-/*   Updated: 2025/02/12 09:53:34 by rguigneb         ###   ########.fr       */
+/*   Updated: 2025/02/12 12:15:25 by rguigneb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ void	send_char(int pid, int c)
 
 int	main(int ac, char **av)
 {
-	char	*str;
-	char	*line;
 	int		pid;
 	int		i;
 

@@ -3,8 +3,7 @@ CLIENT_NAME				=	client
 SERVER_NAME				=	server
 CC					=	gcc
 
-# -Wall -Werror -Wextra
-CFLAGS				=	 -Idependencies/ft_libc/includes -Iincludes -fPIE
+CFLAGS				=	-Wall -Werror -Wextra -Idependencies/ft_libc/includes -Iincludes -fPIE
 RM					=	rm -rf
 MAKE				=	make --no-print-directory -C
 
